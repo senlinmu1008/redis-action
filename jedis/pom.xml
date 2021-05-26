@@ -7,7 +7,7 @@
 		<artifactId>redis-action</artifactId>
 		<version>1.0</version>
 	</parent>
-	<groupId>com.zxb</groupId>
+	<groupId>net.zhaoxiaobin</groupId>
 	<artifactId>jedis</artifactId>
 	<version>1.0</version>
 
