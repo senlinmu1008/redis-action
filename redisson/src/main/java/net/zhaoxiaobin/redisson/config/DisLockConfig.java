@@ -29,7 +29,7 @@ public class DisLockConfig {
         ClusterServersConfig clusterServersConfig = config.useClusterServers()
                 .setPassword(redisProperties.getPassword())
                 .setScanInterval(5000);
-
+//        config.setLockWatchdogTimeout(60 * 1000); // watch dog看门狗默认锁过期时间
         // 注册集群各个节点
         for (String node : redisProperties.getCluster().getNodes()) {
             clusterServersConfig.addNodeAddress("redis://".concat(node));

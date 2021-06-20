@@ -29,6 +29,7 @@ public class SetnxTest {
 
     @Test
     public void testSetnx() {
+        // 同时并发5个线程竞争去获取锁
         IntStream.range(0, 5).parallel().forEach(i -> {
             String uuid = IdUtil.randomUUID();
             Boolean lock = stringOperations.setIfAbsent("lock", uuid, 10, TimeUnit.SECONDS);
