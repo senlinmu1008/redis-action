@@ -11,7 +11,6 @@
     <artifactId>redisson</artifactId>
     <version>1.0</version>
 
-    <!--  最好引用2.13.0 至 3.11.5版本的redisson-spring-boot-starter  -->
     <dependencies>
         <dependency>
             <groupId>org.redisson</groupId>

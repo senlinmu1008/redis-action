@@ -14,7 +14,7 @@ public class DistributionLockDemo {
     /**
      * 库存
      */
-    public static int count = 100;
+    public static int count = 20;
 
     @DistributionLock(value = "incrementLock", waitTime = 1000)
     public boolean increment() {

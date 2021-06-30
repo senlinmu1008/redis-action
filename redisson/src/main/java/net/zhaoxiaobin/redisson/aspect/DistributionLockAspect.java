@@ -30,7 +30,7 @@ public class DistributionLockAspect {
     public Object doAround(ProceedingJoinPoint point, DistributionLock distributionLock) throws Throwable {
         String methodName = point.getSignature().getName();
         if (StringUtils.isNotBlank(distributionLock.value())) {
-            // 锁粒度较粗，由目标方法上的DistributionLock注解中指定锁的名称，由同一个业务共享该锁
+            // 锁粒度较粗，由目标方法上的DistributionLock注解中指定锁的名称，由同一个方法（业务）共享该锁
             return this.tryLock(point, distributionLock.value(), distributionLock.waitTime());
         } else if (distributionLock.index() >= 0){
             // 锁粒度较细，由目标方法的第x个参数作为锁名称，可以是一个业务上的编号、名称等等
