@@ -22,8 +22,8 @@ public class RedissonApplicationTests {
     @Test
     public void testDisLock() {
         // 5个线程并发去获取锁
-//        IntStream.range(0, 5).parallel().forEach(i -> tryLock());
-        IntStream.range(0, 5).parallel().forEach(i -> lock());
+        IntStream.range(0, 5).parallel().forEach(i -> tryLock());
+//        IntStream.range(0, 5).parallel().forEach(i -> lock());
     }
 
     /**
