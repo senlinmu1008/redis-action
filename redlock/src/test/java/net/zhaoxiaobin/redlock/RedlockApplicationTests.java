@@ -1,5 +1,6 @@
 package net.zhaoxiaobin.redlock;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.redisson.Redisson;
@@ -33,6 +34,7 @@ public class RedlockApplicationTests {
         IntStream.range(0, 5).parallel().forEach(i -> tryRedlock(redissonClient1, redissonClient2, redissonClient3));
     }
 
+    @SneakyThrows
     private void tryRedlock(RedissonClient... redissonClients) {
         // 构建Redlock对象
         RLock[] rLock = new RLock[redissonClients.length];
@@ -42,19 +44,18 @@ public class RedlockApplicationTests {
         RLock redLock = new RedissonRedLock(rLock);
 
         // 基于Redlock对象去操作，与redisson实现普通的分布式锁一样
-        try {
-            // 获取锁最多等待500ms，10s后key过期自动释放锁
-            boolean tryLock = redLock.tryLock(500, 10000, TimeUnit.MILLISECONDS);
-            if (!tryLock) {
-                log.info("当前线程:[{}]没有获得锁", Thread.currentThread().getName());
-                return;
+        // 获取锁最多等待500ms，10s后key过期自动释放锁
+        boolean tryLock = redLock.tryLock(500, 10000, TimeUnit.MILLISECONDS);
+        if (tryLock) {
+            // 获取到锁后开始执行对资源的操作
+            try {
+                log.info("当前线程:[{}]获得锁", Thread.currentThread().getName());
+                // 操作资源...
+            } finally {
+                redLock.unlock();
             }
-            log.info("当前线程:[{}]获得锁", Thread.currentThread().getName());
-            // 操作资源...
-        } catch (InterruptedException e) {
-            log.error("获取分布式锁失败", e);
-        } finally {
-            redLock.unlock();
+        } else {
+            log.info("当前线程:[{}]没有获得锁", Thread.currentThread().getName());
         }
     }
 }

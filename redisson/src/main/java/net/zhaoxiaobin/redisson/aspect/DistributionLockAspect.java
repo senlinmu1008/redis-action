@@ -32,7 +32,7 @@ public class DistributionLockAspect {
         if (StringUtils.isNotBlank(distributionLock.value())) {
             // 锁粒度较粗，由目标方法上的DistributionLock注解中指定锁的名称，由同一个方法（业务）共享该锁
             return this.tryLock(point, distributionLock.value(), distributionLock.waitTime());
-        } else if (distributionLock.index() >= 0){
+        } else if (distributionLock.index() >= 0) {
             // 锁粒度较细，由目标方法的第x个参数作为锁名称，可以是一个业务上的编号、名称等等
             Object[] args = point.getArgs(); // 参数列表
             int index = distributionLock.index(); // 参数列表中第几个参数作为分布式锁的key
@@ -59,19 +59,16 @@ public class DistributionLockAspect {
      */
     private Object tryLock(ProceedingJoinPoint point, String key, int waitTime) throws Throwable {
         RLock disLock = redissonClient.getLock(key);
-        try {
-            // 默认30秒后自动过期，每隔30/3=10秒，看门狗（守护线程）会去续期锁，重设为30秒
-            boolean tryLock = disLock.tryLock(waitTime, TimeUnit.MILLISECONDS);
-            if (!tryLock) {
-                log.error("获取分布式锁:{}失败", key);
-                // 由具体业务决定是抛异常还是返回null或其他业务对象
-//                throw new RuntimeException("获取分布式锁失败");
-                return false;
-            }
-            return point.proceed(point.getArgs());
-        } finally {
-            // 只有获取到锁的线程才执行释放锁操作
-            if (disLock.isHeldByCurrentThread()) {
+        // 默认30秒后自动过期，每隔30/3=10秒，看门狗（守护线程）会去续期锁，重设为30秒
+        boolean tryLock = disLock.tryLock(waitTime, TimeUnit.MILLISECONDS);
+        if (!tryLock) {
+            // 由具体业务决定是抛异常还是返回null或其他业务对象
+//            throw new RuntimeException("获取分布式锁失败");
+            return false;
+        } else {
+            try {
+                return point.proceed(point.getArgs());
+            } finally {
                 disLock.unlock();
             }
         }
