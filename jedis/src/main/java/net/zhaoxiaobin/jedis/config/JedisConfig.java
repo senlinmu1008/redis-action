@@ -57,12 +57,12 @@ public class JedisConfig {
     @Bean
     public JedisCluster jedisCluster(JedisPoolConfig jedisPoolConfig) {
         Set<HostAndPort> nodeSet = new HashSet<>();
-        nodeSet.add(new HostAndPort("172.16.122.101", 6379));
-        nodeSet.add(new HostAndPort("172.16.122.101", 6380));
-        nodeSet.add(new HostAndPort("172.16.122.102", 6379));
-        nodeSet.add(new HostAndPort("172.16.122.102", 6380));
-        nodeSet.add(new HostAndPort("172.16.122.103", 6379));
-        nodeSet.add(new HostAndPort("172.16.122.103", 6380));
+        nodeSet.add(new HostAndPort("172.16.133.101", 6379));
+        nodeSet.add(new HostAndPort("172.16.133.101", 6380));
+        nodeSet.add(new HostAndPort("172.16.133.102", 6379));
+        nodeSet.add(new HostAndPort("172.16.133.102", 6380));
+        nodeSet.add(new HostAndPort("172.16.133.103", 6379));
+        nodeSet.add(new HostAndPort("172.16.133.103", 6380));
         JedisCluster jedisCluster = new JedisCluster(nodeSet, 2000, jedisPoolConfig);
 
         log.info("=====创建JedisCluster=====");

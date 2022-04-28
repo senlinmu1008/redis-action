@@ -4,7 +4,7 @@ server:
 # 这里我们是自己去实例化jedis的相关Bean（JedisPoolConfig、JedisPool...），并没有使用到RedisTemplate
 # 所以并不需要像网上一些教程那样配置在spring节点下（spring.redis.jedis.pool.max-active...）
 jedis:
-  host: 172.16.122.104
+  host: 172.16.133.104
   password:
   port: 6379
   timeout: 2000

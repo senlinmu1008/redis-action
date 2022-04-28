@@ -19,11 +19,11 @@ public class RedlockApplicationTests {
     public void testDisLock() {
         // 配置多台互相独立的redis单机节点
         Config config1 = new Config();
-        config1.useSingleServer().setAddress("redis://172.16.122.104:6379").setDatabase(0);
+        config1.useSingleServer().setAddress("redis://172.16.133.104:6379").setDatabase(0);
         Config config2 = new Config();
-        config2.useSingleServer().setAddress("redis://172.16.122.104:6380").setDatabase(0);
+        config2.useSingleServer().setAddress("redis://172.16.133.104:6380").setDatabase(0);
         Config config3 = new Config();
-        config3.useSingleServer().setAddress("redis://172.16.122.104:6381").setDatabase(0);
+        config3.useSingleServer().setAddress("redis://172.16.133.104:6381").setDatabase(0);
 
         // 构建RedissonClient
         RedissonClient redissonClient1 = Redisson.create(config1);
