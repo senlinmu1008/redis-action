@@ -11,10 +11,11 @@ spring:
     username: root
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
-    initialSize: 1
-    maxActive: 10
-    minIdle: 0
-    maxWait: 60000
+    druid:
+      initialSize: 1
+      maxActive: 10
+      minIdle: 0
+      maxWait: 60000
   # redis配置
   redis:
     cluster:
